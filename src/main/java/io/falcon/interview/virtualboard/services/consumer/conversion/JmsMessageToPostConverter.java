@@ -1,4 +1,4 @@
-package io.falcon.interview.virtualboard.services.consumer;
+package io.falcon.interview.virtualboard.services.consumer.conversion;
 
 import java.util.Date;
 
