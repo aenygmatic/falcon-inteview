@@ -1,0 +1,9 @@
+spring:
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
+
+channels:
+  newpost.name: '${app.channels.newpost.name:newposts}'
+  postsaved.name: '${app.channels.postsaved.name:savedposts}'
