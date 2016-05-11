@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class VirtualBoardController {
     private Converter<Post, PostModel> postToModel;
 
     @RequestMapping(method = POST, path = "/")
-    public void addNewPost(NewPostRequest request) {
+    public void addNewPost(@RequestBody NewPostRequest request) {
         feed.addPost(request.getContent());
     }
 

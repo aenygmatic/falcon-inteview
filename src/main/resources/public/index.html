@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Falcon Virtual Board</title>
+    <link rel="stylesheet" href="/external/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/pusheen/5.jpg" type="image/x-icon"/>
+    <link rel='stylesheet' href='/external/font.css' type='text/css'>
+
+    <script src="/external/angular.min.js"></script>
+    <script src="/external/jquery.min.js"></script>
+    <script src="/external/bootstrap.min.js"></script>
+    <script src="/external/sockjs-0.3.4.js"></script>
+    <script src="/external/stomp.js"></script>
+
+    <script src="app/app.module.js"></script>
+    <script src="app/app.controller.js"></script>
+    <script src="app/app.service.js"></script>
+</head>
+<body data-ng-app="virtual-board-ui" data-ng-controller="virtualBoardController">
+<div id="content">
+
+    <ng-include src="'header.html'"></ng-include>
+    <ng-include src="'content.html'"></ng-include>
+</div>
+</body>
+</html>

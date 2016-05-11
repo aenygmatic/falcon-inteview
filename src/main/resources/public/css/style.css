@@ -1,0 +1,46 @@
+* {
+    font-family: Raleway, sans-serif;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid burlywood;
+    margin-bottom: 50px;
+
+}
+
+.post-feed {
+    overflow: scroll;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: gray;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.container-row {
+    margin-bottom: 30px;
+    width: 90%;
+}
+
+.empty-table-message {
+    color: gray;
+}
+
+#content {
+    background: #fcf0e4;
+    flex: 1 1 auto;
+}
+
+
+
