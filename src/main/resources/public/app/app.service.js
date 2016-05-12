@@ -1,9 +1,7 @@
 (function () {
     angular.module("virtual-board-ui").factory("virtualBoardService", ["$http", virtualBoardService]);
 
-     var serviceUrl = "";
-//    var serviceUrl = "http://localhost:8080";
-
+    var serviceUrl = "";
 
     function virtualBoardService($http) {
         return {
@@ -23,8 +21,7 @@
                 content: comment
             };
             console.log("POST: " + url);
-            return $http.post(url,  JSON.stringify(body), {headers: {'Content-Type': 'application/json'}});
-
+            return $http.post(url, JSON.stringify(body));
         }
     }
 })();

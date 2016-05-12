@@ -1,25 +1,14 @@
 (function () {
-    angular.module("virtual-board-ui").controller("virtualBoardController", ["$scope", "$filter", "virtualBoardService", virtualBoardController]);
+    angular.module("virtual-board-ui").controller("virtualBoardController", ["$scope", "virtualBoardService", virtualBoardController]);
 
-    function virtualBoardController($scope, $filter, virtualBoardService) {
+    function virtualBoardController($scope, virtualBoardService) {
         var stompClient = null;
         $scope.newPostObject = {};
 
-        var server = "http://localhost:8080";
+        var server = "";
 
-        connect();
+        connectWebsocket();
 
-        function connect() {
-            var socket = new SockJS(server + '/post-stream');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/post-stream/new-post', function (post) {
-                    console.log("Received post notification: " + post);
-                    addNewPost(JSON.parse(post.body));
-                });
-            });
-        }
 
         virtualBoardService.getAllPosts().then(function (response) {
             $scope.posts = response.data;
@@ -34,5 +23,18 @@
             $scope.posts.push(body);
             $scope.$apply();
         }
+
+        function connectWebsocket() {
+            var socket = new SockJS(server + '/post-stream');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/post-stream/new-post', function (post) {
+                    console.log("Received post notification: " + post);
+                    addNewPost(JSON.parse(post.body));
+                });
+            });
+        }
+
     }
 })();
