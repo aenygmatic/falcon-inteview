@@ -5,5 +5,7 @@ spring:
       enabled: false
 
 channels:
-  newpost.name: ${app.channels.newpost.name:newposts}
-  postsaved.name: '/post-stream/new-post'
+  posts.new: ${app.channels.posts.new:newposts}
+  posts.saved.success: ${app.channels.posts.save.success:postsaved}
+  posts.saved.failed: ${app.channels.posts.save.failed:postsavefailed}
+  

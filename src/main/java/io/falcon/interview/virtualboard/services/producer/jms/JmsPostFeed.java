@@ -16,7 +16,7 @@ public class JmsPostFeed implements PostFeed {
 
     @Autowired
     private JmsMessagingTemplate messagingTemplate;
-    @Value("${channels.newpost.name}")
+    @Value("${channels.posts.new}")
     private String channel;
 
     @Override
