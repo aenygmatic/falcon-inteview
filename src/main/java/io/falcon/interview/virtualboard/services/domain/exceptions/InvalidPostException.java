@@ -5,9 +5,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(BAD_REQUEST)
-public class TooLongPostContentException extends InvalidPostException {
+public class InvalidPostException extends PostArchiveException {
 
-    public TooLongPostContentException(String message) {
+    public InvalidPostException(String message) {
         super(message);
     }
 }

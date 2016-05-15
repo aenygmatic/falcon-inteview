@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.junit.After;
 import org.junit.Test;
@@ -22,7 +23,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import io.falcon.interview.virtualboard.services.domain.Post;
 import io.falcon.interview.virtualboard.services.domain.PostArchive;
+import io.falcon.interview.virtualboard.services.domain.exceptions.InvalidPostException;
 import io.falcon.interview.virtualboard.services.domain.exceptions.PostNotFoundException;
+import io.falcon.interview.virtualboard.services.domain.exceptions.TooLongPostContentException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = JpaPostArchiveComponentTest.Config.class)
@@ -58,6 +61,21 @@ public class JpaPostArchiveComponentTest {
         assertThat(saved.getIssued().getTime(), is(now.getTime()));
     }
 
+    @Test(expected = InvalidPostException.class)
+    public void testSaveWithNullPost() {
+        underTest.save(null);
+    }
+
+    @Test(expected = InvalidPostException.class)
+    public void testSaveWithNullContent() {
+        underTest.save(newPost(null, new Date()));
+    }
+
+    @Test(expected = TooLongPostContentException.class)
+    public void testSaveWithTooLongContent() {
+        underTest.save(newPost(newStringWithLength(501), new Date()));
+    }
+
     @Test
     public void testSaveAndGet() {
         Date now = new Date();
@@ -70,6 +88,7 @@ public class JpaPostArchiveComponentTest {
         assertThat(received.getContent(), is("Comment"));
         assertThat(received.getIssued().getTime(), is(now.getTime()));
     }
+
 
     @Test(expected = PostNotFoundException.class)
     public void testGetNotFoundNullId() {
@@ -108,6 +127,12 @@ public class JpaPostArchiveComponentTest {
         toSave.setIssued(now);
         toSave.setContent(comment);
         return toSave;
+    }
+
+    private String newStringWithLength(int i) {
+        StringBuilder builder = new StringBuilder();
+        IntStream.range(0, i).forEach(value -> builder.append("a"));
+        return builder.toString();
     }
 
 }

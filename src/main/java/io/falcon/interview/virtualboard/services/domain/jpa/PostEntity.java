@@ -4,6 +4,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -13,6 +14,8 @@ public class PostEntity {
     @Id
     @Column(length = 36)
     private String id;
+    @Lob
+    @Column(length = 500)
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
     private Date issued;

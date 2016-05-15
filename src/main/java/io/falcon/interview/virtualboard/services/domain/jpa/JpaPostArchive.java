@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.falcon.interview.virtualboard.services.domain.Post;
 import io.falcon.interview.virtualboard.services.domain.PostArchive;
+import io.falcon.interview.virtualboard.services.domain.exceptions.InvalidPostException;
 import io.falcon.interview.virtualboard.services.domain.exceptions.PostNotFoundException;
+import io.falcon.interview.virtualboard.services.domain.exceptions.TooLongPostContentException;
 
 @Service
 @Transactional
@@ -31,10 +33,33 @@ public class JpaPostArchive implements PostArchive {
 
     @Override
     public Post save(Post post) {
-        PostEntity entity = postToEntity.convert(post);
-        entity.setId(UUID.randomUUID().toString());
+        validatePost(post);
+        PostEntity entity = convertWithId(post);
         PostEntity savedEntity = repository.save(entity);
         return entityToPost.convert(savedEntity);
+    }
+
+    private PostEntity convertWithId(Post post) {
+        PostEntity entity = postToEntity.convert(post);
+        entity.setId(UUID.randomUUID().toString());
+        return entity;
+    }
+
+    private void validatePost(Post post) {
+        assertNotNull(post);
+        assertPostLength(post);
+    }
+
+    private void assertPostLength(Post post) {
+        if (post.getContent().length() > 500) {
+            throw new TooLongPostContentException("Length of the post cannot be longer than 500 character!");
+        }
+    }
+
+    private void assertNotNull(Post post) {
+        if (post == null || post.getContent() == null) {
+            throw new InvalidPostException("Neither post or post comment cannot be null!");
+        }
     }
 
     @Override
