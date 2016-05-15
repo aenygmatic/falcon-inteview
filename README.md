@@ -48,7 +48,7 @@ Depends on:  *n/a*
 It contain all the domain interfaces, data objects and exceptions.
 
 
-#####  Domain module `io.falcon.interview.virtualboard.services.domain.jpa`
+#####  Domain JPA module `io.falcon.interview.virtualboard.services.domain.jpa`
 Depends on:  *Domain*
 
 It is the Spring Data JPA based implementation of the domain logic.
