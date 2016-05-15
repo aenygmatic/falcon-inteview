@@ -25,37 +25,37 @@ JMS: http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features
 ## Design
 
 #####  Web module `io.falcon.interview.virtualboard.web`
-**Depends on:** Domain, Post feed producer
+Depends on: *Domain, Post feed producer*
 
 This package is responsible for all the web based communication and the conversion between the json models sent and received by the UI and the core domain data models.
 
 
 #####  Post feed module `io.falcon.interview.virtualboard.services.producer`
-**Depends on:** n/a
+Depends on:  *n/a*
 
 It's porpuse to submit the incoming post content to be saved asynchronously. It contains a jsm package which is the Spring JMS implementation of the interface which send the post content with a timestamp to the `app.channels.posts.new` channel.
 
 
 #####  Post feed consumer module `io.falcon.interview.virtualboard.services.consumer`
-**Depends on:** Domain
+Depends on:  *Domain*
 
 The consumer processed the messages produced by the Post Feed from the `app.channels.posts.new` channel. It takes the JMS message and converts it the the domain data format.
 
 
 #####  Domain module `io.falcon.interview.virtualboard.services.domain`
-**Depends on:** n/a
+Depends on:  *n/a*
 
 It contain all the domain interfaces, data objects and exceptions.
 
 
 #####  Domain module `io.falcon.interview.virtualboard.services.domain.jpa`
-**Depends on:** Domain
+Depends on:  *Domain*
 
 It is the Spring Data JPA based implementation of the domain logic.
 
 
 #####  Domain events module `io.falcon.interview.virtualboard.services.domain.events`
-**Depends on:** Domain
+Depends on:  *Domain*
 
 This is a decorator over the domain logic. Since saving the post is async events should be generated to notify the clients on succesfull saving and handle the error on failure. In the case of successfull saving the module will convert the post to a JSON and send of to the `app.channels.posts.save.success` channel otherwise it sends the exception message to the `app.channels.posts.save.failed` channel.
 
