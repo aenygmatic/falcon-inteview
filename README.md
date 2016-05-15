@@ -2,7 +2,7 @@
 
 The service runs as a Spring Boot application can be executed as a singe jar file.
 
-How to run:
+## How to run:
 ```
 java -jar falcon-interview-1.0-SNAPSHOT.jar
 ```
@@ -21,3 +21,43 @@ JMS and PostgreSQL configuration can be set according to the Spring Boot applica
 JPA: http://docs.spring.io/spring-boot/docs/current/reference/html/howto-data-access.html
 
 JMS: http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-messaging.html
+
+## Design
+
+#####  Web module `io.falcon.interview.virtualboard.web`
+**Depends on:** Domain, Post feed producer
+
+This package is responsible for all the web based communication and the conversion between the json models sent and received by the UI and the core domain data models.
+
+
+#####  Post feed module `io.falcon.interview.virtualboard.services.producer`
+**Depends on:** n/a
+
+It's porpuse to submit the incoming post content to be saved asynchronously. It contains a jsm package which is the Spring JMS implementation of the interface which send the post content with a timestamp to the `app.channels.posts.new` channel.
+
+
+#####  Post feed consumer module `io.falcon.interview.virtualboard.services.consumer`
+**Depends on:** Domain
+
+The consumer processed the messages produced by the Post Feed from the `app.channels.posts.new` channel. It takes the JMS message and converts it the the domain data format.
+
+
+#####  Domain module `io.falcon.interview.virtualboard.services.domain`
+**Depends on:** n/a
+
+It contain all the domain interfaces, data objects and exceptions.
+
+
+#####  Domain module `io.falcon.interview.virtualboard.services.domain.jpa`
+**Depends on:** Domain
+
+It is the Spring Data JPA based implementation of the domain logic.
+
+
+#####  Domain events module `io.falcon.interview.virtualboard.services.domain.events`
+**Depends on:** Domain
+
+This is a decorator over the domain logic. Since saving the post is async events should be generated to notify the clients on succesfull saving and handle the error on failure. In the case of successfull saving the module will convert the post to a JSON and send of to the `app.channels.posts.save.success` channel otherwise it sends the exception message to the `app.channels.posts.save.failed` channel.
+
+Currently on the succes event the web module will consume the message and notifies the UI via websocket and the error event is just simply logged.
+
