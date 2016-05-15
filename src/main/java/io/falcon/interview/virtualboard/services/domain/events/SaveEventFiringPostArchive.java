@@ -59,4 +59,12 @@ public class SaveEventFiringPostArchive implements PostArchive {
     public List<Post> getAll() {
         return archive.getAll();
     }
+
+    void setSuccessChannel(String successChannel) {
+        this.successChannel = successChannel;
+    }
+
+    void setFailureChannel(String failureChannel) {
+        this.failureChannel = failureChannel;
+    }
 }
