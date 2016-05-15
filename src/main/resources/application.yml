@@ -1,3 +1,6 @@
+server:
+  port: 80
+
 spring:
   activemq:
     in-memory: true
@@ -8,4 +11,3 @@ channels:
   posts.new: ${app.channels.posts.new:newposts}
   posts.saved.success: ${app.channels.posts.save.success:postsaved}
   posts.saved.failed: ${app.channels.posts.save.failed:postsavefailed}
-  
