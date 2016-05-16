@@ -57,7 +57,7 @@ It is the Spring Data JPA based implementation of the domain logic.
 #####  Domain events module `io.falcon.interview.virtualboard.services.domain.events`
 Depends on:  *Domain*
 
-This is a decorator over the domain logic. Since saving the post is async events should be generated to notify the clients on succesfull saving and handle the error on failure. In the case of successfull saving the module will convert the post to a JSON and send of to the `app.channels.posts.save.success` channel otherwise it sends the exception message to the `app.channels.posts.save.failed` channel.
+This is a decorator over the domain logic. Since saving the post is async events should be generated to notify the clients on succesfull saving and handle the error on failure. In the case of successfull saving the module will convert the post to a JSON and send of to the `app.channels.posts.save.success` channel otherwise it sends the exception message to the `app.channels.posts.save.failed` channel. With this approach the clients see only the valid ans sucessfully saved post, so we can avoid that a post apeears on the clients but disappear on refresh due to some validation or persostance error.
 
 Currently on the succes event the web module will consume the message and notifies the UI via websocket and the error event is just simply logged.
 
